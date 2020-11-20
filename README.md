@@ -10,7 +10,7 @@ As already stated this project is an implementation of such board and made of 3 
 - Java backend (Spring Boot)
 - Angular frontend
 
-The entry point for a user is a website which is available under the address: **http://localhost:4200/**
+The entry point for a user is a website which is available under the address: **http://localhost:8080/**
 
 ![Kanban](https://github.com/wkrzywiec/kanban-board/blob/master/assets/kanban.gif)
 
@@ -51,9 +51,9 @@ and task table.
 After running the app it can be accessible using these connectors:
 
 - Host: *localhost*
-- Database: *kanban*
-- User: *kanban*
-- Password: *kanban*
+- Database: *cldinf*
+- User: *cldinf*
+- Password: *cldinf*
 
 
 Like other parts of application Postgres database is containerized and
@@ -61,17 +61,16 @@ the definition of its Docker container can be found in
 *docker-compose.yml* file.
 
 ```yml
-kanban-postgres:
-    image: "postgres:9.6-alpine"
-    container_name: kanban-postgres
-    volumes:
-      - kanban-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_DB:kanban
-      - POSTGRES_USER:kanban
-      - POSTGRES_PASSWORD:kanban
+db:
+  image: postgres:10.15-alpine
+  volumes:
+    - kanban-data:/var/lib/postgresql/data
+  environment:
+    - POSTGRES_DB=cldinf
+    - POSTGRES_USER=cldinf
+    - POSTGRES_PASSWORD=cldinf
+  networks:
+    - storage
 ```
 
 #### kanban-app (REST API)
@@ -82,7 +81,7 @@ frontend. It supports multiple HTTP REST methods like GET, POST, PUT and
 DELETE for two resources - kanban & task.
 
 Full list of available REST endpoints could be found in Swagger UI,
-which could be called using link: **http://localhost:8080/api/swagger-ui.html**
+which could be called using link (only if the backend port is exposed): **http://localhost:XXXX/api/swagger-ui.html**
 
 
 ![swagger-ui](https://github.com/wkrzywiec/kanban-board/blob/master/assets/swagger.png)
@@ -99,4 +98,4 @@ This is a real endpoint for a user where they can manipulate their
 kanbans and tasks. It consumes the REST API endpoints provided by
 *kanban-app*.
 
-It can be entered using link: **http://localhost:4200/**
+It can be entered using link: **http://localhost:8080/**

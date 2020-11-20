@@ -3,33 +3,40 @@ services:
 
   db:
     image: postgres:10.15-alpine
-    container_name: kanban-postgres
     volumes:
       - kanban-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=cldinf
       - POSTGRES_USER=cldinf
       - POSTGRES_PASSWORD=cldinf
+    networks:
+      - storage
 
-  app:
-    container_name: kanban-app
+  kanban-app:
     image: hsrnetwork/kanban-app:1.1
     environment:
       - DB_SERVER=db
       - POSTGRES_DB=cldinf
       - POSTGRES_USER=cldinf
       - POSTGRES_PASSWORD=cldinf
-    links:
-      - db
+    networks:
+      - backend
+      - storage
 
-  ui:
-    container_name: kanban-ui
+  kanban-ui:
     image: hsrnetwork/kanban-ui:1.1
     ports:
-      - 80:80
-    links:
-      - app
+      - 8080:80
+    networks:
+      - ui
+      - backend
 
+networks:
+  ui:
+  backend:
+    internal: true
+  storage:
+    internal: true
 
 volumes:
   kanban-data:
