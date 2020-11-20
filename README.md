@@ -48,14 +48,6 @@ $ docker-compose down
 PostgreSQL database contains only single schema with two tables - kanban
 and task table.
 
-After running the app it can be accessible using these connectors:
-
-- Host: *localhost*
-- Database: *cldinf*
-- User: *cldinf*
-- Password: *cldinf*
-
-
 Like other parts of application Postgres database is containerized and
 the definition of its Docker container can be found in
 *docker-compose.yml* file.
